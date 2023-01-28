@@ -11,7 +11,7 @@ export default function GlassCard({ children }) {
       textAlign={"center"}
       color={"white"}
       boxShadow={"0 8px 32px 0 rgba( 0, 0, 0, 0.18 )"}
-      p={"5"}
+      p={"10"}
     >
       {children}
     </Box>
