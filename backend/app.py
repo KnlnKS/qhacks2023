@@ -12,10 +12,10 @@ def hello():
 def getTranscription():
     if request.method == "POST":
         base64_string = request.form.get('base64_string')
-       
+
         return Whisper(base64_string)
     return "uhh..."
-    
+
 
 @app.route("/summarize", methods=["POST"])
 def getSummary():
