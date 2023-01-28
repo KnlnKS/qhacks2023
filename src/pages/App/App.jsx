@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { account } from "../../config/appwrite";
 
-import "./App.css";
 
 function App() {
   useEffect(() => {
