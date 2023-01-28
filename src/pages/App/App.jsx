@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { account } from "../../config/appwrite";
 
-
 function App() {
   useEffect(() => {
     (async () => {

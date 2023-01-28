@@ -5,17 +5,16 @@ import loginWithGoogle from "./loginWithGoogle";
 
 export default function GoogleButton() {
   return (
-    <Center p={8}>
+    <Center>
       <Button
         w={"full"}
         maxW={"md"}
-        variant={"outline"}
+        color={"black"}
         leftIcon={<FcGoogle />}
         onClick={loginWithGoogle}
+        border={"0"}
       >
-        <Center>
-          <Text>Sign in with Google</Text>
-        </Center>
+        <Text>Sign in with Google</Text>
       </Button>
     </Center>
   );
