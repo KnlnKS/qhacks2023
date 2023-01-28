@@ -7,7 +7,7 @@ function Home() {
   return (
     <div className="Home">
       <Center h={"calc(100vh)"}>
-        <GlassCard>
+        <GlassCard h={"50%"} w={"50%"} color={"white"} textAlign={"center"}>
           <Center h={"100%"}>
             <Stack as={Box} spacing={{ base: 5, md: 10 }}>
               <Heading
