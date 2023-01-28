@@ -1,12 +1,20 @@
+import { Box, Image, Center, Heading } from "@chakra-ui/react";
+
 import GoogleButton from "../../components/GoogleButton";
+import Background from "../../components/Background";
+import GlassCard from "../../components/GlassCard";
 
 function Home() {
   return (
     <div className="Home">
-      <h1>QHacks '23</h1>
-      <div className="card">
-        <GoogleButton />
-      </div>
+      <Background>
+        <Center h={"calc(100vh)"}>
+          <GlassCard>
+            <Heading>🎓 LectureBites</Heading>
+            <GoogleButton />
+          </GlassCard>
+        </Center>
+      </Background>
     </div>
   );
 }
