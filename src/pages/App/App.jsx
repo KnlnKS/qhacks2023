@@ -36,7 +36,7 @@ function App() {
                         name="resume"
                         tabIndex="-1"
                         type="file"
-                        onChange={handleFileUpload}
+                        onChange={(e) => handleFileUpload(session)(e)}
                       />
                     </label>
                   </Button>
