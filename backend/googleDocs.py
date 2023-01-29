@@ -16,8 +16,6 @@ def createDocument(auth, title, text):
 
     document_id = ret_content["documentId"]
 
-    addText(auth, document_id, text)
-
     return document_id, text
 
 def addText(auth, document_id, text):
