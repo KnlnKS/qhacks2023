@@ -31,7 +31,7 @@ export default function handleFileUpload(session) {
         data
       );
 
-      setTitle("");
+      window.location.reload();
     };
     reader.readAsDataURL(file);
   };
