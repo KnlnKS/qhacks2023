@@ -3,7 +3,7 @@ import { ID } from "appwrite";
 import { databases } from "../../config/appwrite";
 
 export default function handleFileUpload(session) {
-  return (e, title, setTitle) => {
+  return (e, title, setIsUploading) => {
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.onloadend = async () => {
@@ -14,6 +14,7 @@ export default function handleFileUpload(session) {
 
       const titleVal = title;
 
+      setIsUploading(true);
       let resp = await fetch("http://localhost:5000/transcription", {
         method: "POST",
         headers: {
@@ -30,6 +31,7 @@ export default function handleFileUpload(session) {
         ID.unique(),
         data
       );
+      setIsUploading(false);
 
       window.location.reload();
     };

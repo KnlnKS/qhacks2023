@@ -23,6 +23,7 @@ function App() {
   const session = useSession();
   const [title, setTitle] = useState("");
   const [docs, setDocs] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     databases
@@ -86,7 +87,9 @@ function App() {
                   </FormControl>
 
                   <Button
-                    disabled={title.length < 5}
+                    isLoading={isUploading}
+                    loadingText="Uploading"
+                    isDisabled={title.length < 5}
                     leftIcon={<FcAudioFile />}
                   >
                     <label>
@@ -97,7 +100,7 @@ function App() {
                         tabIndex="-1"
                         type="file"
                         onChange={(e) =>
-                          handleFileUpload(session)(e, title, setTitle)
+                          handleFileUpload(session)(e, title, setIsUploading)
                         }
                       />
                     </label>
