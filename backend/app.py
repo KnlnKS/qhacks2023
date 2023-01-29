@@ -11,8 +11,7 @@ def hello():
 @app.route("/transcription", methods=["POST"])
 def getTranscription():
     if request.method == "POST":
-        base64_string = request.form.get('base64_string')
-
+        base64_string = request.data.decode("utf-8")
         return Whisper(base64_string)
     return "uhh..."
 
