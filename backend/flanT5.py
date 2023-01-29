@@ -1,8 +1,8 @@
 import banana_dev as banana
 
 def Summarize(text):
-    api_key = "71a182c0-eb49-4735-bac9-38255c652d06"
-    model_key = "ff735c41-b964-460a-8ca2-56cde72d484a"
+    api_key = "ad3f1fa9-73d5-4a6a-b97c-bbddb025a265"
+    model_key = "c255e071-7ee0-4eae-b1ca-844dbd632e70"
 
     model_params = {
         "min_length": 30,
@@ -17,8 +17,8 @@ def Summarize(text):
     return res["modelOutputs"][0]
 
 def Search(text, query):
-    api_key = "71a182c0-eb49-4735-bac9-38255c652d06"
-    model_key = "ff735c41-b964-460a-8ca2-56cde72d484a"
+    api_key = "ad3f1fa9-73d5-4a6a-b97c-bbddb025a265"
+    model_key = "c255e071-7ee0-4eae-b1ca-844dbd632e70"
 
     model_params = {
         "min_length": 3,
@@ -37,8 +37,8 @@ def Search(text, query):
     return res["modelOutputs"][0]
 
 def search_all(data, query):
-    api_key = "71a182c0-eb49-4735-bac9-38255c652d06"
-    model_key = "ff735c41-b964-460a-8ca2-56cde72d484a"
+    api_key = "ad3f1fa9-73d5-4a6a-b97c-bbddb025a265"
+    model_key = "c255e071-7ee0-4eae-b1ca-844dbd632e70"
 
     model_params = {
         "min_length": 3,
@@ -61,5 +61,5 @@ def search_all(data, query):
             document_ids.append(document_id)
             answers.append(res["modelOutputs"][0])
             break
-        
+
     return {"document_ids": document_ids, "answers": answers}
