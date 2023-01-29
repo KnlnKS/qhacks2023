@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from whisper import Whisper
 from flanT5 import Summarize, Search, search_all
-from googleDocs import createDocument
+from googleDocs import createDocument, addText
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -20,6 +20,8 @@ def getTranscription():
         json_data = request.get_json()
         transcription = Whisper(json_data['b64'])
         document_id, text = createDocument(auth_header, json_data['title'], transcription)
+        addText(auth_header, document_id, text)
+        
         return jsonify(document_id=document_id, text=text, title=json_data['title'])
 
     return "uhh..."
