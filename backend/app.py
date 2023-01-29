@@ -17,9 +17,9 @@ def hello():
 def getTranscription():
     if request.method == "POST":
         auth_header = request.headers.get('Authorization')
-        base64_string = request.data.decode("utf-8")
-        transcription = Whisper(base64_string)
-        createDocument(auth_header, "temporary title", transcription)
+        json_data = request.get_json()
+        transcription = Whisper(json_data['b64'])
+        createDocument(auth_header, json_data['title'], transcription)
         return "success!"
 
     return "uhh..."

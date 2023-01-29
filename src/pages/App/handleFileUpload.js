@@ -1,7 +1,6 @@
 export default function handleFileUpload(session) {
-  return (e) => {
+  return (e, title) => {
     const file = e.target.files[0];
-    console.log(file);
     const reader = new FileReader();
     reader.onloadend = async () => {
       const val = reader.result
@@ -9,13 +8,15 @@ export default function handleFileUpload(session) {
         .replace(/^.+,/, "")
         .toString("base64");
 
+        const titleVal = title;
+
       await fetch("http://localhost:5000/transcription", {
         method: "POST",
         headers: {
-          "Content-Type": "text/plain",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${session?.providerAccessToken}`,
         },
-        body: val,
+        body: JSON.stringify({ b64: val, title: titleVal}),
       });
 
       window.reload();

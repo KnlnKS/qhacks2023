@@ -21,6 +21,7 @@ import handleFileUpload from "./handleFileUpload";
 function App() {
   const session = useSession();
   const [title, setTitle] = useState("");
+  let titleValue = "";
 
   return (
     <div className="App">
@@ -30,16 +31,6 @@ function App() {
             <Center h={"100%"} w={"100%"}>
               <GlassCard p={"5"} h={"90%"} w={"90%"}>
                 <Heading>🎓 LectureBites</Heading>
-                <Flex alignItems={"center"} justifyContent={"space-between"}>
-                  <Button
-                    bg="gray.700"
-                    color={"gray.200"}
-                    _hover={{ bg: "blue.600" }}
-                  >
-                    🎓 LectureBites
-                  </Button>
-                  <Box display="flex"></Box>
-                </Flex>
 
                 <Divider py={"5"} />
 
@@ -64,7 +55,7 @@ function App() {
                       bg="gray.700"
                       color={"gray.200"}
                       border={"0px"}
-                      onChange={(e) => setTitle(e)}
+                      onChange={(e) => setTitle(e.target.value)}
                     />
                   </FormControl>
 
@@ -82,7 +73,7 @@ function App() {
                         name="resume"
                         tabIndex="-1"
                         type="file"
-                        onChange={(e) => handleFileUpload(session)(e)}
+                        onChange={(e) => handleFileUpload(session)(e, title)}
                       />
                     </label>
                   </Button>
