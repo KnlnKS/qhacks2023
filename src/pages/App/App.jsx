@@ -110,7 +110,15 @@ function App() {
                               "63d5e58db550c87c6e57",
                               doc?.$id
                             )
-                            .then(() => window.location.reload());
+                            .then(() =>
+                              databases.listDocuments(
+                                "63d5c4c702e04b3042a8",
+                                "63d5e58db550c87c6e57"
+                              )
+                            )
+                            .then((response) =>
+                              setDocs(response?.documents || [])
+                            );
                         }}
                       />
                     </a>
