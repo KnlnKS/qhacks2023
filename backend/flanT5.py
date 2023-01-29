@@ -50,7 +50,7 @@ def search_all(data, query):
         query = query + "?"
 
     document_ids = []
-
+    answers = []
     for document_id, text in data:
         new_text = 'Answer the following questions based on this text. Give an explanation for your answer. If the answer is not in the text, return "unanswerable:\n\n' + text + "\nQ: " + query
         model_payload = {"prompt": new_text, "params": model_params}
@@ -59,5 +59,6 @@ def search_all(data, query):
 
         if "unanswerable" not in res["modelOutputs"][0]:
             document_ids.append(document_id)
+            answers.append(res["modelOutputs"][0])
         
-    return {"document_ids": document_ids}
+    return {"document_ids": document_ids, "answers": answers}
