@@ -18,14 +18,19 @@ def getTranscription():
     if request.method == "POST":
         auth_header = request.headers.get('Authorization')
         json_data = request.get_json()
+        add_summary = json_data['addSumary']
         transcription = Whisper(json_data['b64'])
         document_id, text = createDocument(auth_header, json_data['title'], transcription)
+
+        if add_summary:
+            summary = Summarize(text)
+            addText(auth_header, document_id, summary)
+            addText(auth_header, document_id, "-------------------------------------------------------------------------------------------------------------------------------")
         addText(auth_header, document_id, text)
-        
+
         return jsonify(document_id=document_id, text=text, title=json_data['title'])
 
     return "uhh..."
-
 
 @app.route("/summarize", methods=["POST"])
 def getSummary():
@@ -51,7 +56,6 @@ def searchQueryAll():
 
         return search_all(json_data["data"], json_data["query"])
     return "uhh..."
-
 
 if __name__ == "__main__":
   app.run()
