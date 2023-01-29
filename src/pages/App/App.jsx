@@ -11,17 +11,22 @@ import {
   FormControl,
   FormLabel,
   Input,
+  InputGroup,
+  InputRightElement,
+  IconButton,
 } from "@chakra-ui/react";
-import { FcAudioFile, FcDocument } from "react-icons/fc";
+import { FcAudioFile, FcDocument, FcSearch } from "react-icons/fc";
 
 import { useSession } from "../../hooks";
 import { databases } from "../../config/appwrite";
 import GlassCard from "../../components/GlassCard";
 import handleFileUpload from "./handleFileUpload";
+import handleSearch from "./handleSearch";
 
 function App() {
   const session = useSession();
   const [title, setTitle] = useState("");
+  const [query, setQuery] = useState("");
   const [docs, setDocs] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -39,6 +44,23 @@ function App() {
             <Center h={"100%"} w={"100%"}>
               <GlassCard p={"5"} h={"90%"} w={"90%"}>
                 <Heading color="white">🎓 LectureBites</Heading>
+
+                <InputGroup size="md" mt={"5"} color={"white"}>
+                  <Input
+                    pr="4.5rem"
+                    type={"text"}
+                    placeholder="Ask me a question!"
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
+                  <InputRightElement>
+                    <IconButton
+                      aria-label="Search database"
+                      icon={<FcSearch />}
+                      onClick={() => handleSearch(query, docs)}
+
+                    />
+                  </InputRightElement>
+                </InputGroup>
 
                 <Divider my={"5"} />
 
@@ -80,8 +102,7 @@ function App() {
                     </FormLabel>
                     <Input
                       type="text"
-                      bg={"white"}
-                      border={"0px"}
+                      color={"white"}
                       onChange={(e) => setTitle(e.target.value)}
                     />
                   </FormControl>
