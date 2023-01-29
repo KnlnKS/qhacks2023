@@ -60,5 +60,6 @@ def search_all(data, query):
         if "unanswerable" not in res["modelOutputs"][0]:
             document_ids.append(document_id)
             answers.append(res["modelOutputs"][0])
+            break
         
     return {"document_ids": document_ids, "answers": answers}
