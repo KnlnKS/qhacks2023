@@ -5,6 +5,7 @@ import {
   Text,
   Box,
   Center,
+  Card,
   Divider,
   Stack,
   Heading,
@@ -39,6 +40,7 @@ function App() {
   const { startRecording, stopRecording, recordingBlob, isRecording } =
     useAudioRecorder();
   const [audioKind, setAudioKind] = useState(0);
+  const [searchResult, setSearchResult] = useState(false);
 
   useEffect(() => {
     if (recordingBlob) {
@@ -70,65 +72,86 @@ function App() {
                     pr="4.5rem"
                     type={"text"}
                     placeholder="Ask me a question!"
-                    onChange={(e) => setQuery(e.target.value)}
+                    onChange={(e) => {
+                      setQuery(e.target.value);
+                      setSearchResult(false);
+                    }}
                   />
                   <InputRightElement>
                     <IconButton
                       aria-label="Search database"
                       icon={<FcSearch />}
-                      onClick={() => handleSearch(query, docs)}
+                      onClick={() => handleSearch(query, docs, setSearchResult)}
                     />
                   </InputRightElement>
                 </InputGroup>
 
                 <Divider my={"5"} />
 
-                <Stack spacing={4}>
-                  {docs.map((doc) => (
-                    <a
-                      href={`https://docs.google.com/document/d/${doc?.document_id}`}
-                      key={doc?.document_id}
-                    >
-                      <Button
-                        as="a"
-                        w={"75%"}
-                        mr={"1"}
-                        leftIcon={<FcDocument />}
-                        justifyContent="flex-start"
-                      >
-                        {doc?.title}
-                      </Button>
+                {!searchResult ? (
+                  <>
+                    <Stack spacing={4}>
+                      {docs.map((doc) => (
+                        <a
+                          href={`https://docs.google.com/document/d/${doc?.document_id}`}
+                          key={doc?.document_id}
+                        >
+                          <Button
+                            as="a"
+                            w={"75%"}
+                            mr={"1"}
+                            leftIcon={<FcDocument />}
+                            justifyContent="flex-start"
+                          >
+                            {doc?.title}
+                          </Button>
 
-                      <IconButton
-                        colorScheme="red"
-                        aria-label="Delete"
-                        icon={<FcEmptyTrash />}
-                        onClick={() => {
-                          databases
-                            .deleteDocument(
-                              "63d5c4c702e04b3042a8",
-                              "63d5e58db550c87c6e57",
-                              doc?.$id
-                            )
-                            .then(() =>
-                              databases.listDocuments(
-                                "63d5c4c702e04b3042a8",
-                                "63d5e58db550c87c6e57"
-                              )
-                            )
-                            .then((response) =>
-                              setDocs(response?.documents || [])
-                            );
-                        }}
-                      />
-                    </a>
-                  ))}
-                </Stack>
+                          <IconButton
+                            colorScheme="red"
+                            aria-label="Delete"
+                            icon={<FcEmptyTrash />}
+                            onClick={() => {
+                              databases
+                                .deleteDocument(
+                                  "63d5c4c702e04b3042a8",
+                                  "63d5e58db550c87c6e57",
+                                  doc?.$id
+                                )
+                                .then(() =>
+                                  databases.listDocuments(
+                                    "63d5c4c702e04b3042a8",
+                                    "63d5e58db550c87c6e57"
+                                  )
+                                )
+                                .then((response) =>
+                                  setDocs(response?.documents || [])
+                                );
+                            }}
+                          />
+                        </a>
+                      ))}
+                    </Stack>
 
-                {docs.length < 1 && (
-                  <Box color="white">
-                    <Text>Upload/Record Audio to see documents</Text>
-                  </Box>
+                    {docs.length < 1 && (
+                      <Box color="white">
+                        <Text>Upload/Record Audio to see documents</Text>
+                      </Box>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <Card p={"5"} w={"full"} mr={"1"}>
+                      {searchResult?.answers[0] ? (
+                        <a
+                          href={`https://docs.google.com/document/d/${searchResult?.document_ids[0]}`}
+                        >
+                          {searchResult?.answers[0]}
+                        </a>
+                      ) : (
+                        <Text>No results found</Text>
+                      )}
+                    </Card>
+                  </>
                 )}
               </GlassCard>
             </Center>
@@ -185,7 +208,6 @@ function App() {
                       onClick={() => {
                         if (!isRecording) {
                           startRecording();
-                          console.log(recordingBlob);
                         } else {
                           stopRecording();
                           setAudioKind(2);

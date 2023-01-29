@@ -1,4 +1,4 @@
-const handleSearch = (query, docs) => {
+const handleSearch = (query, docs, setRes) => {
   let docDict = {};
   docs.forEach((doc) => {
     docDict[doc?.document_id] = doc?.text;
@@ -13,7 +13,9 @@ const handleSearch = (query, docs) => {
     body: JSON.stringify(req),
   })
     .then((resp) => resp.json())
-    .then(console.log);
+    .then((data) => {
+      setRes(data);
+    });
 };
 
 export default handleSearch;
