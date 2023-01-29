@@ -3,16 +3,13 @@ import { ID } from "appwrite";
 import { databases } from "../../config/appwrite";
 
 export default function handleFileUpload(session) {
-  return (e, title, setIsUploading) => {
-    const file = e.target.files[0];
+  return (file, title, setIsUploading) => {
     const reader = new FileReader();
     reader.onloadend = async () => {
       const val = reader.result
         .replace("data:", "")
         .replace(/^.+,/, "")
         .toString("base64");
-
-      const titleVal = title;
 
       setIsUploading(true);
       let resp = await fetch("http://localhost:5000/transcription", {
@@ -21,7 +18,7 @@ export default function handleFileUpload(session) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${session?.providerAccessToken}`,
         },
-        body: JSON.stringify({ b64: val, title: titleVal, addSumary: false }),
+        body: JSON.stringify({ b64: val, title, addSumary: false }),
       });
       const data = await resp.json();
 

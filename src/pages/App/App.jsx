@@ -22,6 +22,7 @@ import {
   FcEmptyTrash,
   FcVoicemail,
 } from "react-icons/fc";
+import { useAudioRecorder } from "react-audio-voice-recorder";
 
 import { useSession } from "../../hooks";
 import { databases } from "../../config/appwrite";
@@ -35,6 +36,18 @@ function App() {
   const [query, setQuery] = useState("");
   const [docs, setDocs] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
+  const { startRecording, stopRecording, recordingBlob, isRecording } =
+    useAudioRecorder();
+
+  useEffect(() => {
+    if (recordingBlob) {
+      handleFileUpload(session)(
+        new File([recordingBlob], "file.mp3"),
+        title,
+        setIsUploading
+      );
+    }
+  });
 
   useEffect(() => {
     databases
@@ -142,7 +155,11 @@ function App() {
                           tabIndex="-1"
                           type="file"
                           onChange={(e) =>
-                            handleFileUpload(session)(e, title, setIsUploading)
+                            handleFileUpload(session)(
+                              e.target.files[0],
+                              title,
+                              setIsUploading
+                            )
                           }
                         />
                       </label>
@@ -151,20 +168,18 @@ function App() {
                     <Button
                       isLoading={isUploading}
                       loadingText="Uploading"
-                      isDisabled={title.length < 5}
                       leftIcon={<FcVoicemail />}
+                      onClick={() => {
+                        if (!isRecording) {
+                          startRecording();
+                          console.log(recordingBlob);
+                        } else {
+                          stopRecording();
+                        }
+                      }}
                     >
                       <label>
-                        Record Audio
-                        <input
-                          disabled={title.length < 5}
-                          name="resume"
-                          tabIndex="-1"
-                          type="file"
-                          onChange={(e) =>
-                            handleFileUpload(session)(e, title, setIsUploading)
-                          }
-                        />
+                        {isRecording ? "Stop Recording" : "Record Audio"}
                       </label>
                     </Button>
                   </Flex>
