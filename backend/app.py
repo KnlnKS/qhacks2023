@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from whisper import Whisper
-from flanT5 import Summarize, Search
+from flanT5 import Summarize, Search, search_all
 from googleDocs import createDocument
 from flask_cors import CORS
 
@@ -42,6 +42,13 @@ def searchQuery():
         return Search(text, search_query)
     return "uhh..."
 
+@app.route("/searchall", methods=["POST"])
+def searchQueryAll():
+    if request.method == "POST":
+        json_data = request.get_json()
+
+        return search_all(json_data["data"], json_data["query"])
+    return "uhh..."
 
 
 if __name__ == "__main__":
