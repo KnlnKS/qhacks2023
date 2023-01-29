@@ -38,6 +38,7 @@ function App() {
   const [isUploading, setIsUploading] = useState(false);
   const { startRecording, stopRecording, recordingBlob, isRecording } =
     useAudioRecorder();
+  const [audioKind, setAudioKind] = useState(0);
 
   useEffect(() => {
     if (recordingBlob) {
@@ -47,7 +48,7 @@ function App() {
         setIsUploading
       );
     }
-  });
+  }, [recordingBlob]);
 
   useEffect(() => {
     databases
@@ -142,9 +143,11 @@ function App() {
                   </FormControl>
                   <Flex justify={"space-between"}>
                     <Button
-                      isLoading={isUploading}
+                      isLoading={audioKind !== 2 && isUploading}
                       loadingText="Uploading"
-                      isDisabled={title.length < 5}
+                      isDisabled={
+                        title.length < 5 || isRecording || audioKind === 2
+                      }
                       leftIcon={<FcAudioFile />}
                     >
                       <label>
@@ -154,19 +157,21 @@ function App() {
                           name="resume"
                           tabIndex="-1"
                           type="file"
-                          onChange={(e) =>
+                          onChange={(e) => {
+                            setAudioKind(1);
                             handleFileUpload(session)(
                               e.target.files[0],
                               title,
                               setIsUploading
-                            )
-                          }
+                            );
+                          }}
                         />
                       </label>
                     </Button>
 
                     <Button
-                      isLoading={isUploading}
+                      isDisabled={title.length < 5 || audioKind === 1}
+                      isLoading={audioKind !== 1 && isUploading}
                       loadingText="Uploading"
                       leftIcon={<FcVoicemail />}
                       onClick={() => {
@@ -175,6 +180,7 @@ function App() {
                           console.log(recordingBlob);
                         } else {
                           stopRecording();
+                          setAudioKind(2);
                         }
                       }}
                     >
