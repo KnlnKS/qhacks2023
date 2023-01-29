@@ -21,7 +21,7 @@ export default function handleFileUpload(session) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${session?.providerAccessToken}`,
         },
-        body: JSON.stringify({ b64: val, title: titleVal, addSumary: true }),
+        body: JSON.stringify({ b64: val, title: titleVal, addSumary: false }),
       });
       const data = await resp.json();
 
