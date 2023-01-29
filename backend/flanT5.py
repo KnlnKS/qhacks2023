@@ -51,7 +51,7 @@ def search_all(data, query):
 
     document_ids = []
     answers = []
-    for document_id, text in data:
+    for document_id, text in data.items():
         new_text = 'Answer the following questions based on this text. Give an explanation for your answer. If the answer is not in the text, return "unanswerable:\n\n' + text + "\nQ: " + query
         model_payload = {"prompt": new_text, "params": model_params}
 
