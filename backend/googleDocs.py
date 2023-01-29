@@ -13,11 +13,13 @@ def createDocument(auth, title, text):
 
     ret = requests.post(url, json=document, headers=headers)
     ret_content = json.loads(ret.text)
-    
+
     document_id = ret_content["documentId"]
 
     addText(auth, document_id, text)
-    
+
+    return document_id, text
+
 def addText(auth, document_id, text):
     req = [
          {

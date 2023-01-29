@@ -15,13 +15,20 @@ import {
 import { FcAudioFile } from "react-icons/fc";
 
 import { useSession } from "../../hooks";
+import { databases } from "../../config/appwrite";
 import GlassCard from "../../components/GlassCard";
 import handleFileUpload from "./handleFileUpload";
 
 function App() {
   const session = useSession();
   const [title, setTitle] = useState("");
-  let titleValue = "";
+  const [docs, setDocs] = useState([]);
+
+  useEffect(() => {
+    databases
+      .listDocuments("63d5c4c702e04b3042a8", "63d5e58db550c87c6e57")
+      .then((response) => console.log(response));
+  }, []);
 
   return (
     <div className="App">
@@ -73,7 +80,9 @@ function App() {
                         name="resume"
                         tabIndex="-1"
                         type="file"
-                        onChange={(e) => handleFileUpload(session)(e, title)}
+                        onChange={(e) =>
+                          handleFileUpload(session)(e, title, setTitle)
+                        }
                       />
                     </label>
                   </Button>

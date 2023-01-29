@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from whisper import Whisper
 from flanT5 import Summarize, Search
 from googleDocs import createDocument
@@ -19,8 +19,8 @@ def getTranscription():
         auth_header = request.headers.get('Authorization')
         json_data = request.get_json()
         transcription = Whisper(json_data['b64'])
-        createDocument(auth_header, json_data['title'], transcription)
-        return "success!"
+        document_id, text = createDocument(auth_header, json_data['title'], transcription)
+        return jsonify(document_id=document_id, text=text, title=json_data['title'])
 
     return "uhh..."
 
