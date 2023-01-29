@@ -15,7 +15,12 @@ import {
   InputRightElement,
   IconButton,
 } from "@chakra-ui/react";
-import { FcAudioFile, FcDocument, FcSearch } from "react-icons/fc";
+import {
+  FcAudioFile,
+  FcDocument,
+  FcSearch,
+  FcEmptyTrash,
+} from "react-icons/fc";
 
 import { useSession } from "../../hooks";
 import { databases } from "../../config/appwrite";
@@ -57,7 +62,6 @@ function App() {
                       aria-label="Search database"
                       icon={<FcSearch />}
                       onClick={() => handleSearch(query, docs)}
-
                     />
                   </InputRightElement>
                 </InputGroup>
@@ -72,12 +76,26 @@ function App() {
                     >
                       <Button
                         as="a"
-                        w={"full"}
+                        w={"75%"}
+                        mr={"1"}
                         leftIcon={<FcDocument />}
                         justifyContent="flex-start"
                       >
                         {doc?.title}
                       </Button>
+
+                      <IconButton
+                        colorScheme="red"
+                        aria-label="Delete"
+                        icon={<FcEmptyTrash />}
+                        onClick={() => {
+                          databases.deleteDocument(
+                            "63d5c4c702e04b3042a8",
+                            "63d5e58db550c87c6e57",
+                            doc?.$id
+                          ).then(() => window.location.reload());
+                        }}
+                      />
                     </a>
                   ))}
                 </Stack>
