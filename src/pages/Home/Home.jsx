@@ -18,15 +18,11 @@ function Home() {
                 🕵️ NoteBuddy
               </Heading>
               <Text>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis
-                tincidunt ligula. Aenean ornare felis ex, nec suscipit risus
-                pellentesque vulputate. Pellentesque risus risus, lacinia tempus
-                faucibus non, imperdiet a est.
+                Your smart note-taking companion that can organize, summarize
+                and search through your documents! Who needs friends with
+                software like this ヽ(°◇° )ノ.
               </Text>
               <GoogleButton />
-              <Button variant={"link"} size={"sm"} color={"white"}>
-                <Text as="u">Learn more</Text>
-              </Button>
             </Stack>
           </Center>
         </GlassCard>
