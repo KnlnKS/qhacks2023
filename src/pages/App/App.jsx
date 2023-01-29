@@ -27,7 +27,7 @@ function App() {
   useEffect(() => {
     databases
       .listDocuments("63d5c4c702e04b3042a8", "63d5e58db550c87c6e57")
-      .then((response) => console.log(response));
+      .then((response) => setDocs(response?.documents || []));
   }, []);
 
   return (

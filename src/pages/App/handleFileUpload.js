@@ -24,7 +24,7 @@ export default function handleFileUpload(session) {
       });
       const data = await resp.json();
 
-      resp = databases.createDocument(
+      resp = await databases.createDocument(
         "63d5c4c702e04b3042a8",
         "63d5e58db550c87c6e57",
         ID.unique(),
