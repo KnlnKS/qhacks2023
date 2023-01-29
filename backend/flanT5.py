@@ -28,7 +28,7 @@ def Search(text, query):
     if query[-1] != "?":
         query = query + "?"
 
-    new_text = 'Answer the following questions based on this text:\n\n' + text + "\nQ: " + query
+    new_text = 'Answer the following questions based on this text. Give an explanation for your answer:\n\n' + text + "\nQ: " + query
     model_payload = {"prompt": new_text, "params": model_params}
 
     res = banana.run(api_key, model_key, model_payload)
