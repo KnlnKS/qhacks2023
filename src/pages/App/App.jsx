@@ -22,6 +22,7 @@ import {
   FcEmptyTrash,
   FcVoicemail,
 } from "react-icons/fc";
+import { useAudioRecorder } from "react-audio-voice-recorder";
 
 import { useSession } from "../../hooks";
 import { databases } from "../../config/appwrite";
@@ -35,6 +36,19 @@ function App() {
   const [query, setQuery] = useState("");
   const [docs, setDocs] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
+  const { startRecording, stopRecording, recordingBlob, isRecording } =
+    useAudioRecorder();
+  const [audioKind, setAudioKind] = useState(0);
+
+  useEffect(() => {
+    if (recordingBlob) {
+      handleFileUpload(session)(
+        new File([recordingBlob], "file.mp3"),
+        title,
+        setIsUploading
+      );
+    }
+  }, [recordingBlob]);
 
   useEffect(() => {
     databases
@@ -129,9 +143,11 @@ function App() {
                   </FormControl>
                   <Flex justify={"space-between"}>
                     <Button
-                      isLoading={isUploading}
+                      isLoading={audioKind !== 2 && isUploading}
                       loadingText="Uploading"
-                      isDisabled={title.length < 5}
+                      isDisabled={
+                        title.length < 5 || isRecording || audioKind === 2
+                      }
                       leftIcon={<FcAudioFile />}
                     >
                       <label>
@@ -141,30 +157,35 @@ function App() {
                           name="resume"
                           tabIndex="-1"
                           type="file"
-                          onChange={(e) =>
-                            handleFileUpload(session)(e, title, setIsUploading)
-                          }
+                          onChange={(e) => {
+                            setAudioKind(1);
+                            handleFileUpload(session)(
+                              e.target.files[0],
+                              title,
+                              setIsUploading
+                            );
+                          }}
                         />
                       </label>
                     </Button>
 
                     <Button
-                      isLoading={isUploading}
+                      isDisabled={title.length < 5 || audioKind === 1}
+                      isLoading={audioKind !== 1 && isUploading}
                       loadingText="Uploading"
-                      isDisabled={title.length < 5}
                       leftIcon={<FcVoicemail />}
+                      onClick={() => {
+                        if (!isRecording) {
+                          startRecording();
+                          console.log(recordingBlob);
+                        } else {
+                          stopRecording();
+                          setAudioKind(2);
+                        }
+                      }}
                     >
                       <label>
-                        Record Audio
-                        <input
-                          disabled={title.length < 5}
-                          name="resume"
-                          tabIndex="-1"
-                          type="file"
-                          onChange={(e) =>
-                            handleFileUpload(session)(e, title, setIsUploading)
-                          }
-                        />
+                        {isRecording ? "Stop Recording" : "Record Audio"}
                       </label>
                     </Button>
                   </Flex>
