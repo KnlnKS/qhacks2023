@@ -20,6 +20,7 @@ import {
   FcDocument,
   FcSearch,
   FcEmptyTrash,
+  FcVoicemail,
 } from "react-icons/fc";
 
 import { useSession } from "../../hooks";
@@ -89,11 +90,13 @@ function App() {
                         aria-label="Delete"
                         icon={<FcEmptyTrash />}
                         onClick={() => {
-                          databases.deleteDocument(
-                            "63d5c4c702e04b3042a8",
-                            "63d5e58db550c87c6e57",
-                            doc?.$id
-                          ).then(() => window.location.reload());
+                          databases
+                            .deleteDocument(
+                              "63d5c4c702e04b3042a8",
+                              "63d5e58db550c87c6e57",
+                              doc?.$id
+                            )
+                            .then(() => window.location.reload());
                         }}
                       />
                     </a>
@@ -124,26 +127,47 @@ function App() {
                       onChange={(e) => setTitle(e.target.value)}
                     />
                   </FormControl>
+                  <Flex justify={"space-between"}>
+                    <Button
+                      isLoading={isUploading}
+                      loadingText="Uploading"
+                      isDisabled={title.length < 5}
+                      leftIcon={<FcAudioFile />}
+                    >
+                      <label>
+                        Upload Audio
+                        <input
+                          disabled={title.length < 5}
+                          name="resume"
+                          tabIndex="-1"
+                          type="file"
+                          onChange={(e) =>
+                            handleFileUpload(session)(e, title, setIsUploading)
+                          }
+                        />
+                      </label>
+                    </Button>
 
-                  <Button
-                    isLoading={isUploading}
-                    loadingText="Uploading"
-                    isDisabled={title.length < 5}
-                    leftIcon={<FcAudioFile />}
-                  >
-                    <label>
-                      Upload Audio
-                      <input
-                        disabled={title.length < 5}
-                        name="resume"
-                        tabIndex="-1"
-                        type="file"
-                        onChange={(e) =>
-                          handleFileUpload(session)(e, title, setIsUploading)
-                        }
-                      />
-                    </label>
-                  </Button>
+                    <Button
+                      isLoading={isUploading}
+                      loadingText="Uploading"
+                      isDisabled={title.length < 5}
+                      leftIcon={<FcVoicemail />}
+                    >
+                      <label>
+                        Record Audio
+                        <input
+                          disabled={title.length < 5}
+                          name="resume"
+                          tabIndex="-1"
+                          type="file"
+                          onChange={(e) =>
+                            handleFileUpload(session)(e, title, setIsUploading)
+                          }
+                        />
+                      </label>
+                    </Button>
+                  </Flex>
                 </GlassCard>
               </Box>
             </Center>
