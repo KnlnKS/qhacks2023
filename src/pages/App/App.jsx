@@ -65,7 +65,7 @@ function App() {
           <Flex flex={3} h={"100%"}>
             <Center h={"100%"} w={"100%"}>
               <GlassCard p={"5"} h={"90%"} w={"90%"}>
-                <Heading color="white">🎓 LectureBites</Heading>
+                <Heading color="white">🕵️ NoteBuddy</Heading>
 
                 <InputGroup size="md" mt={"5"} color={"white"}>
                   <Input

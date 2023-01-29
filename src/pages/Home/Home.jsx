@@ -15,7 +15,7 @@ function Home() {
                 fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
                 lineHeight={"110%"}
               >
-                🎓 LectureBites
+                🕵️ NoteBuddy
               </Heading>
               <Text>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis
